@@ -11,7 +11,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 #5. Kopiowanie całego kodu źródłowego do kontenera
-COPY src/ src/
+COPY . .
 
 #6. Utworzenie katalogu na model (jeśli nie istnieje)
 RUN mkdir -p model
@@ -20,4 +20,4 @@ RUN mkdir -p model
 ENV PYTHONUNBUFFERED=1
 
 #8. Komenda startowa
-CMD ["uvicorn", "src.app:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
