@@ -1,0 +1,16 @@
+# Środowisko wirtualne
+.venv/
+venv/
+env/
+
+# Pliki tymczasowe Pythona
+__pycache__/
+*.pyc
+
+# Pliki konfiguracyjne IDE
+.idea/
+.vscode/
+
+# Artefakty
+model/
+metrics.json

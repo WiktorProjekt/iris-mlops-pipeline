@@ -1,0 +1,53 @@
+name: ML Pipeline CI/CD
+
+# 1. Wyzwalacz (Trigger)
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-train:
+    # 2. Środowisko uruchomieniowe
+    runs-on: ubuntu-latest
+
+    steps:
+    # Pobranie kodu z repozytorium
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Instalacja Pythona
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+
+    # Instalacja bibliotek
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    # Uruchomienie treningu
+    # Skrypt wygeneruje pliki: model/model.pkl oraz metrics.json
+    - name: Train Model
+      run: python train_model.py
+
+    # Wyświetlenie wyników w logach konsoli
+    - name: Show Metrics
+      run: cat metrics.json
+
+    # Zapisanie modelu jako artefakt (do pobrania)
+    - name: Upload Model Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: trained-model
+        path: model/model.pkl
+
+    # Zapisanie metryk jako artefkt
+    - name: Upload Metrics Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: training-metrics
+        path: metrics.json
