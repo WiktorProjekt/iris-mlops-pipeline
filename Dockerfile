@@ -1,23 +1,25 @@
-#1. Wybór obrazu bazowego
-FROM python:3.9-slim
+# Wybór obrazu bazowego
+FROM python:3.11-slim
 
-#2. Ustawienie katalogu roboczego wewnątrz kontenera
+# Ustawienie katalogu roboczego wewnątrz kontenera
 WORKDIR /app
 
-#3. Kopiowanie pliku z zależnościami
+# Kopiowanie pliku z zależnościami
 COPY requirements.txt .
 
-#4. Instalacja bibliotek
+# Instalacja bibliotek
 RUN pip install --no-cache-dir -r requirements.txt
 
-#5. Kopiowanie całego kodu źródłowego do kontenera
+RUN python train_model.py
+
+# Kopiowanie całego kodu źródłowego do kontenera
 COPY . .
 
-#6. Utworzenie katalogu na model (jeśli nie istnieje)
+# Utworzenie katalogu na model (jeśli nie istnieje)
 RUN mkdir -p model
 
-#7. Zmienna środowiskowa dla Pythona
+# Zmienna środowiskowa dla Pythona
 ENV PYTHONUNBUFFERED=1
 
-#8. Komenda startowa
+# Komenda startowa
 CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
