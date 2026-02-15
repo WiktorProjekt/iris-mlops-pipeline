@@ -10,10 +10,10 @@ COPY requirements.txt .
 # Instalacja bibliotek
 RUN pip install --no-cache-dir -r requirements.txt
 
-RUN python train_model.py
-
 # Kopiowanie całego kodu źródłowego do kontenera
 COPY . .
+
+RUN python train_model.py
 
 # Utworzenie katalogu na model (jeśli nie istnieje)
 RUN mkdir -p model
